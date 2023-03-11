@@ -1,9 +1,16 @@
 #!/usr/bin/env node
 
-import boxen from 'boxen';
-import chalk from 'chalk';
+// import boxen from 'boxen';
+// import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
+
+const boxen = require('boxen');
+const chalk = require('chalk');
+
+enum HighlightType {
+    Red, Yellow, Green
+}
 
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
@@ -12,16 +19,12 @@ const buildDate = new Date(Date.now());
 const inputFile = path.join(process.cwd(), 'package.json');
 const outputFileName = 'buildinfo.js';
 
-var outputFolder: string;
-var outputFile: string;
-
-enum HighlightType {
-    Red, Yellow, Green
-}
-
 const red = HighlightType.Red;
 const yellow = HighlightType.Yellow;
 const green = HighlightType.Green;
+
+var outputFolder: string;
+var outputFile: string;
 
 function writeConsole(color: HighlightType, highlightText: string, msg: string) {
     if (color == HighlightType.Red) console.log(chalk.red(`${highlightText}: `) + msg);
