@@ -1,18 +1,34 @@
 #!/usr/bin/env node
 
-const boxen = require('boxen');
-const chalk = require('chalk');
-const fs = require('fs');
-const path = require('path');
-// https://stackoverflow.com/questions/9153571/is-there-a-way-to-get-version-from-package-json-in-nodejs-code
-// const packageDotJSON = require('./package.json');
+// TODO: Get destination folder from command line
 
-const appName = 'Ionic Build Info';
+import boxen from 'boxen';
+import chalk from 'chalk';
+import fs from 'fs';
+import path from 'path';
+
+const yargs = require('yargs/yargs')
+const { hideBin } = require('yargs/helpers')
+const appName = 'Generate Build Info';
 const blankStr = '';
 const buildDate = new Date(Date.now());
 const inputFile = path.join(process.cwd(), 'package.json');
-const outputFolder = path.join(process.cwd(), 'src/app');
-const outputFile = path.join(outputFolder, 'buildinfo.ts');
+const outputFileName = 'buildinfo.js';
+
+// const outputFolder = path.join(process.cwd(), 'src/app');
+// const outputFile = path.join(outputFolder, 'buildinfo.js');
+var outputFolder: string;
+var outputFile: string;
+
+// Check our command-line argument(s)
+const argv = yargs(hideBin(process.argv)).argv
+if (!argv.outputFolder) {
+    console.log(chalk.red('\nError: Output folder not specified\n'));
+    process.exit(1);
+}
+
+outputFolder = path.join(process.cwd(), argv.outputFolder);
+outputFile = path.join(outputFolder, outputFileName);
 
 function outputHighlighted(highlight: string, msg: string) {
     console.log(chalk.yellow(`${highlight}: `) + msg);
@@ -35,7 +51,7 @@ try {
 outputHighlighted('\nInput file', inputFile);
 try {
     if (!fs.existsSync(inputFile)) {
-        console.log(chalk.red('\nError: the package.json file does not exist\n'));
+        console.log(chalk.red('\nError: This is not a nodeJS project, cannot find `package.json` in this folder\n'));
         process.exit(1);
     }
 } catch (err) {
@@ -43,24 +59,22 @@ try {
 }
 
 let rawData = fs.readFileSync(inputFile);
-let packageDotJSON = JSON.parse(rawData);
+let packageDotJSON = JSON.parse(rawData.toString());
+
 let buildVersion = packageDotJSON.version;
 outputHighlighted('Build version', buildVersion);
 outputHighlighted('Build date', `${buildDate.toString()} (${buildDate.getTime().toString()})`);
-
-console.log('\nWriting output file');
 
 let outputStr = 'export const buildInfo = {\n';
 outputStr += `  buildVersion: "${buildVersion}",\n`;
 outputStr += `  buildDate: ${buildDate.getTime()},\n`;
 outputStr += '}';
 
-fs.writeFile(outputFile, outputStr, function (err: any, data: any) {
-    if (err) {
-        console.log(chalk.red('\nError: Unable to write to file\n'));
-        console.log(err);
-    }
-    if (data) {
-        console.log(data);
-    }
-});
+console.log('\nWriting output file');
+try {
+    fs.writeFileSync(outputFile, outputStr, 'utf8');
+    console.log(chalk.green('\nOutput file written successfully\n'));
+} catch (err) {
+    console.log(chalk.red('\nError: Unable to write to file\n'));
+    console.log(err);
+}

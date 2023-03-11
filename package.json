@@ -1,7 +1,7 @@
 {
   "name": "generate-build-info",
   "version": "0.0.0",
-  "description": "Generates the buildinfo.json file designated folder",
+  "description": "Generates the `buildinfo.js` file designated folder",
   "main": "gen-build-info.js",
   "bin": {
     "gen-build-info": "gen-build-info.js"
@@ -17,11 +17,12 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^14.14.22"
+    "@types/node": "^14.18.37"
   },
   "dependencies": {
-    "boxen": "^5.0.0",
-    "chalk": "^4.1.0"
+    "boxen": "^7.0.2",
+    "chalk": "^5.2.0",
+    "yargs": "^17.7.1"
   },
   "keywords": [
     "Ionic"
