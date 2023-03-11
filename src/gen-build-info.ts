@@ -26,7 +26,6 @@ if (!argv.outputFolder) {
     console.log(chalk.red('\nError: Output folder not specified\n'));
     process.exit(1);
 }
-
 outputFolder = path.join(process.cwd(), argv.outputFolder);
 outputFile = path.join(outputFolder, outputFileName);
 

@@ -1,4 +1,6 @@
-# Ionic Build Info
+# Generate Build Info
+
+**NEEDS UPDATING**
 
 While building a desktop web application using the [Ionic Framework](https://ionicframework.com/), I realized that for support purposes I wanted the ability to display the app's build number (or even build date) in the application somewhere. I started looking for a solution and didn't find one, so I built this module.
 
