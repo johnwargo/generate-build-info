@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-// TODO: Get destination folder from command line
-
 import boxen from 'boxen';
 import chalk from 'chalk';
 import fs from 'fs';
@@ -10,59 +8,68 @@ import path from 'path';
 const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
 const appName = 'Generate Build Info';
-const blankStr = '';
 const buildDate = new Date(Date.now());
 const inputFile = path.join(process.cwd(), 'package.json');
 const outputFileName = 'buildinfo.js';
 
-// const outputFolder = path.join(process.cwd(), 'src/app');
-// const outputFile = path.join(outputFolder, 'buildinfo.js');
 var outputFolder: string;
 var outputFile: string;
+
+enum HighlightType {
+    Red, Yellow, Green
+}
+
+const red = HighlightType.Red;
+const yellow = HighlightType.Yellow;
+const green = HighlightType.Green;
+
+function writeConsole(color: HighlightType, highlightText: string, msg: string) {
+    if (color == HighlightType.Red) console.log(chalk.red(`${highlightText}: `) + msg);
+    if (color == HighlightType.Yellow) console.log(chalk.yellow(`${highlightText}: `) + msg);
+    if (color == HighlightType.Green) console.log(chalk.green(`${highlightText}: `) + msg);
+}
 
 // Check our command-line argument(s)
 const argv = yargs(hideBin(process.argv)).argv
 if (!argv.outputFolder) {
-    console.log(chalk.red('\nError: Output folder not specified\n'));
+    writeConsole(red, 'Error', 'Output folder not specified\n');
     process.exit(1);
 }
 outputFolder = path.join(process.cwd(), argv.outputFolder);
 outputFile = path.join(outputFolder, outputFileName);
 
-function outputHighlighted(highlight: string, msg: string) {
-    console.log(chalk.yellow(`${highlight}: `) + msg);
-}
-
-// Opening window
 console.log(boxen(appName, { padding: 1 }));
-outputHighlighted('Output folder', outputFolder);
-outputHighlighted('Output file', outputFile);
+writeConsole(yellow, 'Output folder', outputFolder);
+writeConsole(yellow, 'Output file', outputFile);
 
 try {
     if (!fs.existsSync(outputFolder)) {
-        console.log(chalk.red('\nError: Output folder does not exist\n'));
+        writeConsole(red, 'Error', 'Output folder does not exist\n');
         process.exit(1);
     }
-} catch (err) {
-    console.error(err);
+} catch (err: any) {
+    writeConsole(red, 'Error', err.message);
+    process.exit(1);
 }
 
-outputHighlighted('\nInput file', inputFile);
+writeConsole(HighlightType.Yellow, '\nInput file', inputFile);
 try {
     if (!fs.existsSync(inputFile)) {
-        console.log(chalk.red('\nError: This is not a nodeJS project, cannot find `package.json` in this folder\n'));
+        writeConsole(red, 'Error',
+            'This is not a nodeJS project, cannot find `package.json` in this folder\n');
         process.exit(1);
     }
-} catch (err) {
-    console.error(err);
+} catch (err: any) {
+    writeConsole(red, 'Error', err.message);
+    process.exit(1);
 }
 
 let rawData = fs.readFileSync(inputFile);
 let packageDotJSON = JSON.parse(rawData.toString());
 
 let buildVersion = packageDotJSON.version;
-outputHighlighted('Build version', buildVersion);
-outputHighlighted('Build date', `${buildDate.toString()} (${buildDate.getTime().toString()})`);
+writeConsole(green, 'Build version', buildVersion);
+writeConsole(green, 'Build date', `${buildDate.toString()} (${buildDate.getTime().toString()})`);
 
 let outputStr = 'export const buildInfo = {\n';
 outputStr += `  buildVersion: "${buildVersion}",\n`;
@@ -72,8 +79,8 @@ outputStr += '}';
 console.log('\nWriting output file');
 try {
     fs.writeFileSync(outputFile, outputStr, 'utf8');
-    console.log(chalk.green('\nOutput file written successfully\n'));
-} catch (err) {
-    console.log(chalk.red('\nError: Unable to write to file\n'));
-    console.log(err);
+    writeConsole(green, 'Success', 'Output file written successfully\n');
+} catch (err: any) {
+    writeConsole(red, 'Error', 'Unable to write to file\n')
+    console.dir(err);
 }
