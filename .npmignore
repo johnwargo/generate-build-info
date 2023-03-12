@@ -1,5 +1,7 @@
 # Folders
+/src
 
 # Files
-tsconfig.json
 .gitignore
+tsconfig.json
+package-lock.json
