@@ -9,10 +9,9 @@ var HighlightType;
 import fs from 'fs';
 import path from 'path';
 // Third-party modules
-const boxen = require('boxen');
-const chalk = require('chalk');
-const yargs = require('yargs/yargs');
-const { hideBin } = require('yargs/helpers');
+import chalk from 'chalk';
+import yargs from 'yargs/yargs';
+import { hideBin } from 'yargs/helpers';
 // local constants
 const appName = 'Generate Build Info';
 const buildDate = new Date(Date.now());
@@ -39,7 +38,8 @@ if (!argv.outputFolder) {
 }
 outputFolder = path.join(process.cwd(), argv.outputFolder);
 outputFile = path.join(outputFolder, outputFileName);
-console.log(boxen(appName, { padding: 1 }));
+// console.log(boxen(appName, { padding: 1 }));
+console.log(appName);
 writeConsole(yellow, 'Output folder', outputFolder);
 writeConsole(yellow, 'Output file', outputFile);
 try {
