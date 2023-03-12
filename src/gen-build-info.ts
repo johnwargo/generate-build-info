@@ -1,19 +1,20 @@
 #!/usr/bin/env node
 
-// import boxen from 'boxen';
-// import chalk from 'chalk';
-import fs from 'fs';
-import path from 'path';
-
-const boxen = require('boxen');
-const chalk = require('chalk');
-
 enum HighlightType {
     Red, Yellow, Green
 }
 
+// node modules
+import fs from 'fs';
+import path from 'path';
+
+// Third-party modules
+const boxen = require('boxen');
+const chalk = require('chalk');
 const yargs = require('yargs/yargs')
-const { hideBin } = require('yargs/helpers')
+const { hideBin } = require('yargs/helpers');
+
+// local constants
 const appName = 'Generate Build Info';
 const buildDate = new Date(Date.now());
 const inputFile = path.join(process.cwd(), 'package.json');
@@ -33,7 +34,7 @@ function writeConsole(color: HighlightType, highlightText: string, msg: string) 
 }
 
 // Check our command-line argument(s)
-const argv = yargs(hideBin(process.argv)).argv
+const argv: any = yargs(hideBin(process.argv)).argv
 if (!argv.outputFolder) {
     writeConsole(red, 'Error', 'Output folder not specified\n');
     process.exit(1);

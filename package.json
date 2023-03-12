@@ -17,14 +17,14 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^14.18.37"
+    "@types/boxen": "^3.0.1",
+    "@types/node": "^14.18.37",
+    "@types/yargs": "^17.0.22"
   },
   "dependencies": {
     "boxen": "^7.0.2",
     "chalk": "^5.2.0",
     "yargs": "^17.7.1"
   },
-  "keywords": [
-    "Ionic"
-  ]
+  "keywords": []
 }
