@@ -1,26 +1,19 @@
 #!/usr/bin/env node
 
+// import boxen from 'boxen';
+// import chalk from 'chalk';
+import fs from 'fs';
+import path from 'path';
+
+const boxen = require('boxen');
+const chalk = require('chalk');
+
 enum HighlightType {
     Red, Yellow, Green
 }
 
-
-// import boxen from 'boxen';
-// import chalk from 'chalk';
-// import fs from 'fs';
-// import path from 'path';
-
-const boxen = require('boxen');
-const chalk = require('chalk');
-const fs = require('fs');
-const path = require('path');
-
-
-import yargs from 'yargs';
-// const yargs = require('yargs/yargs')
+const yargs = require('yargs/yargs')
 const { hideBin } = require('yargs/helpers')
-
-
 const appName = 'Generate Build Info';
 const buildDate = new Date(Date.now());
 const inputFile = path.join(process.cwd(), 'package.json');
