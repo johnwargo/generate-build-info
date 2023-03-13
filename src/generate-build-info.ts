@@ -89,7 +89,8 @@ writeConsole(green, 'Build date', `${buildDate.toString()} (${buildDate.getTime(
 
 const buildInfo = {
     buildVersion: buildVersion,
-    buildDate: buildDate.getTime()
+    buildDateMs: buildDate.getTime(),
+    buildDateStr: buildDate.toLocaleString()
 };
 let outputStr = JSON.stringify(buildInfo, null, 2);
 
