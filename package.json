@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node gen-build-info.js"
+    "build": "tsc && gen-build-info .",
+    "start": "tsc && gen-build-info . && node gen-build-info.js"
   },
   "author": "John M. Wargo",
   "repository": {

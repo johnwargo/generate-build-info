@@ -6,3 +6,4 @@ _site/
 
 # Files
 package-lock.json
+buildinfo.json
