@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// TODO: Enable flag to switch output to typescript, or pick output format from command line
+
 enum HighlightType {
     Red, Yellow, Green
 }
@@ -11,13 +13,12 @@ import path from 'path';
 // Third-party modules
 import boxen from 'boxen';
 import chalk from 'chalk';
-import { argv } from 'process';
 
 // local constants
 const appName = 'Generate Build Info';
 const buildDate = new Date(Date.now());
 const inputFile = path.join(process.cwd(), 'package.json');
-const outputFileName = 'buildinfo.js';
+const outputFileName = 'buildinfo.json';
 const newline="\n";
 
 const red = HighlightType.Red;
@@ -78,12 +79,19 @@ let packageDotJSON = JSON.parse(rawData.toString());
 
 let buildVersion = packageDotJSON.version;
 writeConsole(green, '\nBuild version', buildVersion);
-writeConsole(green, 'Build date', `${buildDate.toString()} (${buildDate.getTime().toString()})`);
+writeConsole(green, 'Build date', `${buildDate.toString()} (${buildDate.getTime().toString()} in ms)`);
 
-let outputStr = 'export const buildInfo = {\n';
-outputStr += `  buildVersion: "${buildVersion}",\n`;
-outputStr += `  buildDate: ${buildDate.getTime()},\n`;
-outputStr += '}';
+// javascript output
+// let outputStr = 'export const buildInfo = {\n';
+// outputStr += `  buildVersion: "${buildVersion}",\n`;
+// outputStr += `  buildDate: ${buildDate.getTime()},\n`;
+// outputStr += '}';
+
+const buildInfo = {
+    buildVersion: buildVersion,
+    buildDate: buildDate.getTime()
+};
+let outputStr = JSON.stringify(buildInfo, null, 2);
 
 try {
     fs.writeFileSync(outputFile, outputStr, 'utf8');

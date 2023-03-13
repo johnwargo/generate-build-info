@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+// TODO: Enable flag to switch output to typescript, or pick output format from command line
 var HighlightType;
 (function (HighlightType) {
     HighlightType[HighlightType["Red"] = 0] = "Red";
@@ -15,7 +16,7 @@ import chalk from 'chalk';
 const appName = 'Generate Build Info';
 const buildDate = new Date(Date.now());
 const inputFile = path.join(process.cwd(), 'package.json');
-const outputFileName = 'buildinfo.js';
+const outputFileName = 'buildinfo.json';
 const newline = "\n";
 const red = HighlightType.Red;
 const yellow = HighlightType.Yellow;
@@ -69,11 +70,17 @@ let rawData = fs.readFileSync(inputFile);
 let packageDotJSON = JSON.parse(rawData.toString());
 let buildVersion = packageDotJSON.version;
 writeConsole(green, '\nBuild version', buildVersion);
-writeConsole(green, 'Build date', `${buildDate.toString()} (${buildDate.getTime().toString()})`);
-let outputStr = 'export const buildInfo = {\n';
-outputStr += `  buildVersion: "${buildVersion}",\n`;
-outputStr += `  buildDate: ${buildDate.getTime()},\n`;
-outputStr += '}';
+writeConsole(green, 'Build date', `${buildDate.toString()} (${buildDate.getTime().toString()} in ms)`);
+// javascript output
+// let outputStr = 'export const buildInfo = {\n';
+// outputStr += `  buildVersion: "${buildVersion}",\n`;
+// outputStr += `  buildDate: ${buildDate.getTime()},\n`;
+// outputStr += '}';
+const buildInfo = {
+    buildVersion: buildVersion,
+    buildDate: buildDate.getTime()
+};
+let outputStr = JSON.stringify(buildInfo, null, 2);
 try {
     fs.writeFileSync(outputFile, outputStr, 'utf8');
     writeConsole(green, 'Success', 'Output file written successfully\n');
