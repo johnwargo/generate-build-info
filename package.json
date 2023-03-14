@@ -1,6 +1,6 @@
 {
   "name": "generate-build-info",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Generates a `buildinfo.json` file in the designated folder",
   "type": "module",
   "main": "generate-build-info.js",
