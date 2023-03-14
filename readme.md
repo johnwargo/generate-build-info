@@ -76,6 +76,8 @@ The `npm version patch` part of the build step increments the patch version in t
 
 With this in place, when you execute `npm run build` to build a production version of the app, `npm` will update the version number in the project's `package.json` file, generate an updated version of the `buildinfo.js` file, then generate the production build of the app.
 
+The next step is to read the file in you app and use it whatever way makes the most sense for your app. 
+
 ## Background
 
 This module is a generic version of my [react-build-info](https://github.com/johnwargo/react-build-info) and [ionic-build-info](https://github.com/johnwargo/ionic-build-info) projects. In these earlier projects, the target folder is standard, so the modules put the generated file where the project expects it to be and simplifies the command line. 
