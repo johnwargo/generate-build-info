@@ -1,80 +1,86 @@
 # Generate Build Info
 
+Command line utility for npm-based packages that generates a simple `buildinfo.json` file in a specified folder with the expectation that the application in the project folder reads the file and displays the contents somehow within the application. 
 
-Found my module errors resolution here: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+For example, if the project is a web application (like [React](https://reactjs.org/) or [Vue.js](https://vuejs.org/)), the application code can read the generated file and display the build version and build date on the web application's foooter.
 
+The contents of the file look like this:
 
-**NEEDS UPDATING**
-
-While building a desktop web application using the [Ionic Framework](https://ionicframework.com/), I realized that for support purposes I wanted the ability to display the app's build number (or even build date) in the application somewhere. I started looking for a solution and didn't find one, so I built this module.
-
-## Installation
-
-Install the module by opening a terminal window and executing the following command:
-
-```shell
-npm install --save-dev ionic-build-info
-```
-
-## Operation
-
-When you execute the module, it reads the local Ionic project's `package.json` file, and, using the file's `version` property and the current date/time, creates a new file in the project at `src/app/buildinfo.ts` containing the following information:
-
-```typescript
-export const buildInfo = {
-  buildVersion: "0.0.4",
-  buildDate: 1611670976033
+```json
+{
+  "buildVersion": "1.0.0",
+  "buildDateMs": 1678724886957,
+  "buildDateStr": "3/13/2023, 12:28:06 PM"
 }
-```
-
-To import the generated module in a page script, use the following:
-
-```typescript
-import { buildInfo } from '../buildinfo';
-```
-
-When you import this file into your Ionic project, the app has access to the project's build details. Here's an example of how to use the generated module in your app, the following code is from a simple page that outputs the build information to the browser's console:
-
-```typescript
-export class HomePage {
-
-  appBuildNumber: string = '';
-  appBuildDate: Date;
-
-  constructor() {
-    this.appBuildNumber = buildInfo.buildVersion;
-    this.appBuildDate = new Date(buildInfo.buildDate);
-
-    console.log(`Build Number: ${this.appBuildNumber}`);
-    console.log(`Build Date: ${this.appBuildDate}`);
-  }
- 
-}
-```
-
-To use the values in a page's content, use something like the following:
-
-```html
-<p>Build: {{this.appBuildNumber}} [{{this.appBuildDate}}]</p>
 ```
 
 ## Usage
 
-Open the project's `package.json` file and add this process to the existing `build` script entry, changing:
+To install the module as a dependency in the application project, open a terminal window or command prompt and execute the following command:
 
-```text
-"build": "ng build ",
+```shell
+npm install generate-build-info --save-dev 
 ```
 
-to:
+This approach allows you to easily execute the module in the standard `npm run build` process.
 
-```text
-"build": "npm version patch && ionic-build-info && ng build ",
+To install the module globally, open a terminal window or command prompt and execute the following command:
+
+```shell
+npm install generate-build-info -g
 ```
 
-The `npm version patch` part of the build step increments the patch version in the `package.json` file before calling `ionic-build-info`.
+With this approach, you can execute the module in a terminal window or command prompt from any folder on your development system.
 
-With this in place, when you execute `ionic build` to build a production version of the app, `npm` will update the version number in the project's `package.json` file, build an updated version of the buildinfo.js file, then generate the production build of the app.
+When you execute the module, it reads the local project's `package.json` file, and, using the file's `version` property and the current date/time, creates the `buildinfo.json` file in a folder location specified on the command line.
+
+After installation, execute the module using the `gen-build-info` command passing in the destination location for the generated file:
+
+```shell
+gen-build-info <target_folder>
+```
+
+For example, to create the file in the current folder, use the following:
+
+```shell
+gen-build-info .
+```
+
+for npm-based web applications, you'll likely put the file in the project's `src` folder:
+
+```shell
+gen-build-info src
+```
+
+For npm-based Static Site Generators that use a data folder, you might  use:
+
+```shell
+gen-build-info src/_data
+```
+
+**Note:** The module will not create the target folder for you.
+
+To use the module during an npm-driven build process, you can open the project's `package.json` file and update the project's existing `build` script:
+
+```text
+"build": "npm version patch && gen-build-info && <whatever_your_project_build_command_is>",
+```
+
+For example, for a React.js project it would look like this:
+
+```text
+"build": "npm version patch && gen-build-info && react-scripts build",
+```
+
+The `npm version patch` part of the build step increments the patch version in the `package.json` file before calling `gen-build-info`.
+
+With this in place, when you execute `npm run build` to build a production version of the app, `npm` will update the version number in the project's `package.json` file, generate an updated version of the buildinfo.js file, then generate the production build of the app.
+
+## Background
+
+This module is a generic version of my [react-build-info](https://github.com/johnwargo/react-build-info) and [ionic-build-info](https://github.com/johnwargo/ionic-build-info) projects. In these earlier projects, the target folder is standard, so the modules put the generated file where the project expects it to be and simplifies the command line. 
+
+I created this version when I started working with [Eleventy](https://www.11ty.dev/) and wanted an easy way to create a data file in the project that I could use to display an Eleventy site's build version and date on the site. Eleventy already has a way to display the build date in the site since it's a static site generator and all files are generated at build time, but I wanted a way to display the site's platform version (changes to the site, not the site's articles).
 
 ***
 

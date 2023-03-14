@@ -2,6 +2,8 @@
 
 // TODO: Enable flag to switch output to typescript, or pick output format from command line
 
+// Resolved module errors here: https://gist.github.com/sindresorhus/a39789f98801d908bbc7ff3ecc99d99c
+
 enum HighlightType {
     Red, Yellow, Green
 }

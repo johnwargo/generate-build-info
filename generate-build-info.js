@@ -1,18 +1,14 @@
 #!/usr/bin/env node
-// TODO: Enable flag to switch output to typescript, or pick output format from command line
 var HighlightType;
 (function (HighlightType) {
     HighlightType[HighlightType["Red"] = 0] = "Red";
     HighlightType[HighlightType["Yellow"] = 1] = "Yellow";
     HighlightType[HighlightType["Green"] = 2] = "Green";
 })(HighlightType || (HighlightType = {}));
-// node modules
 import fs from 'fs';
 import path from 'path';
-// Third-party modules
 import boxen from 'boxen';
 import chalk from 'chalk';
-// local constants
 const appName = 'Generate Build Info';
 const buildDate = new Date(Date.now());
 const inputFile = path.join(process.cwd(), 'package.json');
@@ -43,10 +39,7 @@ catch (err) {
     writeConsole(red, 'Error', err.message);
     process.exit(1);
 }
-// Check our command-line argument(s)
-// parse the first argument
 const pathObj = path.parse(process.argv[0]);
-// is it node? Then we have three arguments, otherwise two
 var tmpStr = pathObj.name == 'node' ? process.argv[2] : process.argv[1];
 if (tmpStr == undefined) {
     writeConsole(red, 'Error', 'Output folder not specified on command line');
@@ -71,11 +64,6 @@ let packageDotJSON = JSON.parse(rawData.toString());
 let buildVersion = packageDotJSON.version;
 writeConsole(green, '\nBuild version', buildVersion);
 writeConsole(green, 'Build date', `${buildDate.toString()} (${buildDate.getTime().toString()} in ms)`);
-// javascript output
-// let outputStr = 'export const buildInfo = {\n';
-// outputStr += `  buildVersion: "${buildVersion}",\n`;
-// outputStr += `  buildDate: ${buildDate.getTime()},\n`;
-// outputStr += '}';
 const buildInfo = {
     buildVersion: buildVersion,
     buildDateMs: buildDate.getTime(),
