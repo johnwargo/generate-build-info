@@ -63,7 +63,7 @@ gen-build-info src/_data
 To use the module during an npm-driven build process, you can open the project's `package.json` file and update the project's existing `build` script:
 
 ```text
-"build": "npm version patch && gen-build-info && <whatever_your_project_build_command_is>",
+"build": "npm version patch && gen-build-info && <your_project_build_command>",
 ```
 
 For example, for a React.js project it would look like this:
