@@ -74,7 +74,7 @@ For example, for a React.js project it would look like this:
 
 The `npm version patch` part of the build step increments the patch version in the `package.json` file before calling `gen-build-info`.
 
-With this in place, when you execute `npm run build` to build a production version of the app, `npm` will update the version number in the project's `package.json` file, generate an updated version of the buildinfo.js file, then generate the production build of the app.
+With this in place, when you execute `npm run build` to build a production version of the app, `npm` will update the version number in the project's `package.json` file, generate an updated version of the `buildinfo.js` file, then generate the production build of the app.
 
 ## Background
 
