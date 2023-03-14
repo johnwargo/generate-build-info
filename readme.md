@@ -2,7 +2,9 @@
 
 Command line utility for npm-based packages that generates a simple `buildinfo.json` file in a specified folder with the expectation that the application in the project folder reads the file and displays the contents somehow within the application. 
 
-For example, if the project is a web application (like [React](https://reactjs.org/) or [Vue.js](https://vuejs.org/)), the application code can read the generated file and display the build version and build date on the web application's foooter.
+Here's a link to the NPM project: https://www.npmjs.com/package/generate-build-info
+
+For example, if the project is a web application (like [React](https://reactjs.org/) or [Vue.js](https://vuejs.org/)), the application code can read the generated file and display the build version and build date on the web application's footer.
 
 The contents of the file look like this:
 
