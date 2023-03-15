@@ -1,5 +1,6 @@
 # Folders
-/src
+src/
+site/_data/
 
 # Files
 .gitignore
