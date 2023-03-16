@@ -31,14 +31,14 @@ var outputFolder;
 var outputFile;
 
 function writeConsole(color: HighlightType, highlightText: string, msg: string) {
-    if (color == HighlightType.Red) console.log(newline + chalk.red(`${highlightText}: `) + msg + newline);
-    if (color == HighlightType.Yellow) console.log(chalk.yellow(`${highlightText}: `) + msg);
-    if (color == HighlightType.Green) console.log(chalk.green(`${highlightText}: `) + msg);
+    if (color == red) console.log(newline + chalk.red(`${highlightText}: `) + msg + newline);
+    if (color == yellow) console.log(chalk.yellow(`${highlightText}: `) + msg);
+    if (color == green) console.log(chalk.green(`${highlightText}: `) + msg);
 }
 
 console.log(boxen(appName, { padding: 1 }));
 
-writeConsole(HighlightType.Yellow, 'Input file', inputFile);
+writeConsole(yellow, 'Input file', inputFile);
 try {
     if (!fs.existsSync(inputFile)) {
         writeConsole(red, 'Error',

@@ -20,15 +20,15 @@ const green = HighlightType.Green;
 var outputFolder;
 var outputFile;
 function writeConsole(color, highlightText, msg) {
-    if (color == HighlightType.Red)
+    if (color == red)
         console.log(newline + chalk.red(`${highlightText}: `) + msg + newline);
-    if (color == HighlightType.Yellow)
+    if (color == yellow)
         console.log(chalk.yellow(`${highlightText}: `) + msg);
-    if (color == HighlightType.Green)
+    if (color == green)
         console.log(chalk.green(`${highlightText}: `) + msg);
 }
 console.log(boxen(appName, { padding: 1 }));
-writeConsole(HighlightType.Yellow, 'Input file', inputFile);
+writeConsole(yellow, 'Input file', inputFile);
 try {
     if (!fs.existsSync(inputFile)) {
         writeConsole(red, 'Error', 'This is not a nodeJS project, cannot find `package.json` in this folder.');
