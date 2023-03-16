@@ -83,12 +83,6 @@ let buildVersion = packageDotJSON.version;
 writeConsole(green, '\nBuild version', buildVersion);
 writeConsole(green, 'Build date', `${buildDate.toString()} (${buildDate.getTime().toString()} in ms)`);
 
-// javascript output
-// let outputStr = 'export const buildInfo = {\n';
-// outputStr += `  buildVersion: "${buildVersion}",\n`;
-// outputStr += `  buildDate: ${buildDate.getTime()},\n`;
-// outputStr += '}';
-
 const buildInfo = {
     buildVersion: buildVersion,
     buildDateMs: buildDate.getTime(),
