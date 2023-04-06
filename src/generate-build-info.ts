@@ -27,8 +27,8 @@ const red = HighlightType.Red;
 const yellow = HighlightType.Yellow;
 const green = HighlightType.Green;
 
-var outputFolder;
-var outputFile;
+var outputFolder: string;
+var outputFile: string;
 
 function writeConsole(color: HighlightType, highlightText: string, msg: string) {
     if (color == red) console.log(newline + chalk.red(`${highlightText}: `) + msg + newline);
@@ -78,7 +78,6 @@ writeConsole(yellow, 'Output file', outputFile);
 
 let rawData = fs.readFileSync(inputFile);
 let packageDotJSON = JSON.parse(rawData.toString());
-
 let buildVersion = packageDotJSON.version;
 writeConsole(green, '\nBuild version', buildVersion);
 writeConsole(green, 'Build date', `${buildDate.toString()} (${buildDate.getTime().toString()} in ms)`);
