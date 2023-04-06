@@ -19,6 +19,19 @@ const yellow = HighlightType.Yellow;
 const green = HighlightType.Green;
 var outputFolder;
 var outputFile;
+var buildCounter = 0;
+function directoryExists(filePath) {
+    if (fs.existsSync(filePath)) {
+        try {
+            return fs.lstatSync(filePath).isDirectory();
+        }
+        catch (err) {
+            writeConsole(red, 'Error', err.message);
+            return false;
+        }
+    }
+    return false;
+}
 function writeConsole(color, highlightText, msg) {
     if (color == red)
         console.log(newline + chalk.red(`${highlightText}: `) + msg + newline);
@@ -47,14 +60,8 @@ if (tmpStr == undefined) {
 }
 outputFolder = path.join(process.cwd(), tmpStr);
 writeConsole(yellow, 'Output folder', outputFolder);
-try {
-    if (!fs.existsSync(outputFolder)) {
-        writeConsole(red, 'Error', 'Output folder does not exist, please try again');
-        process.exit(1);
-    }
-}
-catch (err) {
-    writeConsole(red, 'Error', err.message);
+if (!directoryExists(outputFolder)) {
+    writeConsole(red, 'Error', 'Output folder does not exist, please try again');
     process.exit(1);
 }
 outputFile = path.join(outputFolder, outputFileName);
@@ -64,10 +71,20 @@ let packageDotJSON = JSON.parse(rawData.toString());
 let buildVersion = packageDotJSON.version;
 writeConsole(green, '\nBuild version', buildVersion);
 writeConsole(green, 'Build date', `${buildDate.toString()} (${buildDate.getTime().toString()} in ms)`);
+if (fs.existsSync(outputFile)) {
+    rawData = fs.readFileSync(outputFile);
+    let tmpJSON = JSON.parse(rawData.toString());
+    if (tmpJSON.buildCounter) {
+        buildCounter = tmpJSON.buildCounter;
+    }
+}
+buildCounter++;
+writeConsole(green, 'Build counter', buildCounter.toLocaleString());
 const buildInfo = {
     buildVersion: buildVersion,
     buildDateMs: buildDate.getTime(),
-    buildDateStr: buildDate.toLocaleString()
+    buildDateStr: buildDate.toLocaleString(),
+    buildCounter: buildCounter
 };
 let outputStr = JSON.stringify(buildInfo, null, 2);
 try {

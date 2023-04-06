@@ -10,7 +10,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc && gen-build-info .",
-    "start": "tsc && gen-build-info . && node gen-build-info.js"
+    "start": "tsc && gen-build-info ."
   },
   "author": "John M. Wargo",
   "repository": {
