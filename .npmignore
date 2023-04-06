@@ -7,3 +7,4 @@ site/_data/
 tsconfig.json
 package-lock.json
 buildinfo.json
+changelog.md
