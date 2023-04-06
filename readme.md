@@ -12,7 +12,8 @@ The contents of the file look like this:
 {
   "buildVersion": "1.0.0",
   "buildDateMs": 1678724886957,
-  "buildDateStr": "3/13/2023, 12:28:06 PM"
+  "buildDateStr": "3/13/2023, 12:28:06 PM",
+  "buildCounter": 42
 }
 ```
 
@@ -65,13 +66,13 @@ gen-build-info src/_data
 To use the module during an npm-driven build process, you can open the project's `package.json` file and update the project's existing `build` script:
 
 ```text
-"build": "npm version patch && gen-build-info && <your_project_build_command>",
+"build": "npm version patch && gen-build-info src && <your_project_build_command>",
 ```
 
 For example, for a React.js project it would look like this:
 
 ```text
-"build": "npm version patch && gen-build-info && react-scripts build",
+"build": "npm version patch && gen-build-info src && react-scripts build",
 ```
 
 The `npm version patch` part of the build step increments the patch version in the `package.json` file before calling `gen-build-info`.
