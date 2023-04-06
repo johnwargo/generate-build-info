@@ -9,8 +9,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "tsc && gen-build-info .",
-    "start": "tsc && gen-build-info ."
+    "start": "tsc && gen-build-info site/_data"
   },
   "author": "John M. Wargo",
   "repository": {
